@@ -1,5 +1,65 @@
+html,
+body {
+  height: 100%;
+}
+
 .skeleton-wrapper {
   height: 200px;
   width: 300px;
+  > span {
+    display: block;
+  }
+}
+.card-skelet {
   background: pink;
+  width: 300px;
+  height: 200px;
+  padding: 20px 10px;
+
+  > .loading-title {
+    display: block;
+    margin-top: 20px;
+    width: 250px;
+    height: 30px;
+    background: #6d6e6e;
+  }
+
+  > .loading-image {
+    margin: 20px;
+    background: #6d6e6e;
+    width: 100px;
+    height: 100px;
+  }
+}
+.grid-item {
+  border: 1px solid #6d6e6e;
+  margin-bottom: 4px;
+
+  > .card {
+    padding: 8px;
+
+    > .card-title {
+      color: #0d1729;
+      margin: 10px 0;
+
+      > span {
+        margin-right: 5px;
+      }
+    }
+    > .card-image {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+
+.card-characters-characterization {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+  > .card-species {
+    margin: 4px;
+    color: #4c5f81;
+  }
 }
