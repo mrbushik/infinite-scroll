@@ -26,24 +26,29 @@ export const GridCellItem: React.FC<{
     >
       {cardsDataResults[itemIndex] ? (
         <div className="card">
-          <h3 className="card-title">
-            <span> {cardsDataResults[itemIndex]?.id}</span>
-            {cardsDataResults[itemIndex]?.name}
-          </h3>
-          <div className="card-characters-characterization">
-            <p className="card-species">
-              Species: {cardsDataResults[itemIndex].species}
-            </p>
-            <p className="card-species">
-              Status: {cardsDataResults[itemIndex].status}
-            </p>
+          <div>
+            <h3 className="card-title">
+              <span> {cardsDataResults[itemIndex]?.id}</span>
+              {cardsDataResults[itemIndex]?.name}
+            </h3>
+            <div className="card-characters-characterization">
+              <p className="card-species">
+                Species: {cardsDataResults[itemIndex].species}
+              </p>
+              <p className="card-species">
+                Status: {cardsDataResults[itemIndex].status}
+              </p>
+            </div>
           </div>
-          <img
-            loading="lazy"
-            className="card-image"
-            src={cardsDataResults[itemIndex].image}
-            alt={cardsDataResults[itemIndex].name}
-          />
+          <div className="card-image-wrapper">
+            {" "}
+            <img
+              loading="lazy"
+              className="card-image"
+              src={cardsDataResults[itemIndex].image}
+              alt={cardsDataResults[itemIndex].name}
+            />
+          </div>
         </div>
       ) : (
         <GridCellItemSkeleton />

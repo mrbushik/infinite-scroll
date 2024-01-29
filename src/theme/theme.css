@@ -1,5 +1,19 @@
-html,
-body {
+body,
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+#root {
+  height: 100%;
+}
+
+.grid-component {
+  overflow-x: hidden !important;
+}
+
+.scroll-wrapper {
   height: 100%;
 }
 
@@ -33,33 +47,51 @@ body {
 }
 .grid-item {
   border: 1px solid #6d6e6e;
+  border-left: unset;
   margin-bottom: 4px;
 
   > .card {
     padding: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
 
-    > .card-title {
-      color: #0d1729;
-      margin: 10px 0;
+.card-title {
+  color: #0d1729;
+  margin: 10px 0;
 
-      > span {
-        margin-right: 5px;
-      }
-    }
-    > .card-image {
-      width: 100px;
-      height: 100px;
-    }
+  > span {
+    margin-right: 5px;
+  }
+}
+
+.card-image-wrapper {
+  width: 100px;
+  height: 100px;
+  > .card-image {
+    width: 100%;
   }
 }
 
 .card-characters-characterization {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
   margin-bottom: 4px;
   > .card-species {
-    margin: 4px;
+    margin: 4px 0;
     color: #4c5f81;
+  }
+}
+
+@media (max-width: 720px) {
+  .card-title {
+    margin: 5px 0;
+    font-size: 1em;
+  }
+  .card-characters-characterization > .card-species {
+    margin: 1px 0;
+    font-size: 12px;
+  }
+  .grid-item > .card {
+    padding: 4px;
   }
 }

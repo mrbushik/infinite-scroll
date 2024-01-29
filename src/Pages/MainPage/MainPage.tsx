@@ -7,6 +7,7 @@ import { CardDataService } from "../../api/services/cardDataService";
 import { gridData } from "../../shared/constants/gridData";
 import { apiGetCardsFromPage, apiGetFirstCards } from "../../api/apiUrls";
 import { CardInfoModel, CardResultModel } from "../../api/models/cardsModel";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 import {
   getCardsData,
@@ -40,10 +41,10 @@ const MainPage: React.FC = () => {
     : 0;
 
   useEffect(() => {
-    getFirstData();
+    getFirstCardsData();
   }, []);
 
-  const getFirstData = async () => {
+  const getFirstCardsData: any = async () => {
     dispatch(isLoading(true));
     const response = await CardDataService(GET_CARDS_URL);
     dispatch(getFirstCards(response));
@@ -58,41 +59,45 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="scroll-wrapper">
       {cardsDataResults && (
-        <InfiniteLoader
-          isItemLoaded={() => loading}
-          itemCount={elementsCount}
-          loadMoreItems={loadMoreCards}
-        >
-          {({ onItemsRendered, ref }: any) => (
-            <Grid
-              className="Grid"
-              columnCount={gridData.columnsCount}
-              columnWidth={() => gridData.columnWidth}
-              height={gridData.height}
-              rowHeight={() => gridData.rowHeight}
-              width={gridData.width}
-              rowCount={elementsCount}
-              onItemsRendered={({
-                visibleRowStartIndex,
-                visibleRowStopIndex,
-                overscanRowStopIndex,
-                overscanRowStartIndex,
-              }) => {
-                onItemsRendered({
-                  overscanStartIndex: overscanRowStartIndex,
-                  overscanStopIndex: overscanRowStopIndex,
-                  visibleStartIndex: visibleRowStartIndex,
-                  visibleStopIndex: visibleRowStopIndex,
-                });
-              }}
-              ref={ref}
+        <AutoSizer>
+          {({ height, width }: any) => (
+            <InfiniteLoader
+              isItemLoaded={() => loading}
+              itemCount={elementsCount}
+              loadMoreItems={loadMoreCards}
             >
-              {GridCellItem}
-            </Grid>
+              {({ onItemsRendered, ref }: any) => (
+                <Grid
+                  className="grid-component"
+                  columnCount={gridData.columnsCount}
+                  columnWidth={() => width / 2}
+                  height={height}
+                  rowHeight={() => height / 5}
+                  width={width}
+                  rowCount={elementsCount}
+                  onItemsRendered={({
+                    visibleRowStartIndex,
+                    visibleRowStopIndex,
+                    overscanRowStopIndex,
+                    overscanRowStartIndex,
+                  }) => {
+                    onItemsRendered({
+                      overscanStartIndex: overscanRowStartIndex,
+                      overscanStopIndex: overscanRowStopIndex,
+                      visibleStartIndex: visibleRowStartIndex,
+                      visibleStopIndex: visibleRowStopIndex,
+                    });
+                  }}
+                  ref={ref}
+                >
+                  {GridCellItem}
+                </Grid>
+              )}
+            </InfiniteLoader>
           )}
-        </InfiniteLoader>
+        </AutoSizer>
       )}
     </div>
   );
