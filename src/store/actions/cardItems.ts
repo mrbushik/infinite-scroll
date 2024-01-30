@@ -1,14 +1,16 @@
+import { ReduxActionTypesNames } from "../../shared/constants/reduxActionTypesNames";
+
 export const getFirstCards = (theme: any) => ({
-  type: "GET_FIRST_CARDS",
+  type: ReduxActionTypesNames.getFirstCards,
   payload: theme,
 });
 
 export const getCardsData = (theme: any) => ({
-  type: "GET_CARDS_DATA",
+  type: ReduxActionTypesNames.getCardsData,
   payload: theme,
 });
 
 export const isLoading = (theme: any) => ({
-  type: "LOADING",
+  type: ReduxActionTypesNames.loading,
   payload: theme,
 });

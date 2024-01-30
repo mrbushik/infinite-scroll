@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { VariableSizeGrid as Grid } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
 import { useDispatch, useSelector } from "react-redux";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 import { CardDataService } from "../../api/services/cardDataService";
 import { gridData } from "../../shared/constants/gridData";
-import { apiGetCardsFromPage, apiGetFirstCards } from "../../api/apiUrls";
+import { apiGetCardsData } from "../../api/apiUrls";
 import { CardInfoModel, CardResultModel } from "../../api/models/cardsModel";
-import AutoSizer from "react-virtualized-auto-sizer";
 
 import {
   getCardsData,
@@ -15,9 +15,10 @@ import {
   isLoading,
 } from "../../store/actions/cardItems";
 import { GridCellItem } from "../../shared/components/GridCell";
+import { AppDispatch } from "../../store/store";
 
 const MainPage: React.FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const cardsDataResults: CardResultModel[] = useSelector(
     (state: any) => state.cardItems.results
@@ -30,9 +31,6 @@ const MainPage: React.FC = () => {
   );
   const loading: boolean = useSelector((state: any) => state.cardItems.loading);
 
-  const GET_CARDS_URL = cardsDataInfo.next
-    ? `${apiGetCardsFromPage}${pageNumber}`
-    : apiGetFirstCards;
   const elementsCount = cardsDataInfo.count
     ? cardsDataInfo.count / gridData.columnsCountDisplayed
     : 0;
@@ -42,16 +40,16 @@ const MainPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const getFirstCardsData: any = async () => {
+  const getFirstCardsData: () => void = async () => {
     dispatch(isLoading(true));
-    const response = await CardDataService(GET_CARDS_URL);
+    const response = await CardDataService(apiGetCardsData);
     dispatch(getFirstCards(response));
   };
 
   const loadMoreCards = async () => {
     if (cardsDataInfo.next !== null) {
       dispatch(isLoading(true));
-      const response: any = await CardDataService(GET_CARDS_URL);
+      const response: any = await CardDataService(apiGetCardsData, pageNumber);
       dispatch(getCardsData(response));
     }
   };
@@ -66,7 +64,7 @@ const MainPage: React.FC = () => {
               itemCount={elementsCount}
               loadMoreItems={loadMoreCards}
             >
-              {({ onItemsRendered, ref }: any) => (
+              {({ onItemsRendered, ref }) => (
                 <Grid
                   className="grid-component"
                   columnCount={gridData.columnsCountDisplayed}

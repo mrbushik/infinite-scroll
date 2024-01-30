@@ -1,6 +1,7 @@
-import { CardItemReducer } from "../interfaces";
+import { CardItemReducerModel } from "../../api/models/reducersModel";
+import { ReduxActionTypesNames } from "../../shared/constants/reduxActionTypesNames";
 
-const initialState: CardItemReducer = {
+const initialState: CardItemReducerModel = {
   info: {},
   results: [],
   loading: false,
@@ -8,7 +9,7 @@ const initialState: CardItemReducer = {
 };
 
 const cardsItems = (state: any = initialState, action: any) => {
-  if (action.type === "GET_FIRST_CARDS") {
+  if (action.type === ReduxActionTypesNames.getFirstCards) {
     return {
       ...state,
       info: action.payload.info,
@@ -16,7 +17,7 @@ const cardsItems = (state: any = initialState, action: any) => {
       pageNumber: (state.pageNumber += 1),
       loading: false,
     };
-  } else if (action.type === "GET_CARDS_DATA") {
+  } else if (action.type === ReduxActionTypesNames.getCardsData) {
     return {
       ...state,
       info: action.payload.info,
@@ -24,7 +25,7 @@ const cardsItems = (state: any = initialState, action: any) => {
       pageNumber: (state.pageNumber += 1),
       loading: false,
     };
-  } else if (action.type === "LOADING") {
+  } else if (action.type === ReduxActionTypesNames.loading) {
     return {
       ...state,
       loading: action.payload,

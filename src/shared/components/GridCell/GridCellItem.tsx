@@ -30,7 +30,7 @@ export const GridCellItem: React.FC<Props> = ({
       }}
       className="grid-item"
     >
-      {cardsDataResults[itemIndex] ? (
+      {cardsDataResults?.[itemIndex] ? (
         <div className="card">
           <div>
             <h3 className="card-title">

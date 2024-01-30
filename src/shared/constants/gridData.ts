@@ -1,6 +1,6 @@
-import { GridData } from "../interfaces/gridData";
+import { GridDataModel } from "../../api/models/gridDataModel";
 
-export const gridData: GridData = {
+export const gridData: GridDataModel = {
   columnsCountDisplayed: 2,
   rowCountDisplayed: 5,
 };

@@ -1,4 +1,4 @@
-export interface GridData {
+export interface GridDataModel {
   columnsCountDisplayed: number;
   rowCountDisplayed: number;
 }
