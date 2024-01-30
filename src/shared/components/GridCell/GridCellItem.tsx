@@ -1,21 +1,27 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { gridData } from "../constants/gridData";
 
-import { CardResultModel } from "../../api/models/cardsModel";
+import { gridData } from "../../constants/gridData";
+import { CardResultModel } from "../../../api/models/cardsModel";
 
 import GridCellItemSkeleton from "./GridCellItemSkeleton";
 
-export const GridCellItem: React.FC<{
+interface Props {
   rowIndex: number;
   columnIndex: number;
   style: React.CSSProperties;
-}> = ({ rowIndex, columnIndex, style }) => {
+}
+
+export const GridCellItem: React.FC<Props> = ({
+  rowIndex,
+  columnIndex,
+  style,
+}) => {
   const cardsDataResults: CardResultModel[] = useSelector(
     (state: any) => state.cardItems.results
   );
 
-  const itemIndex = rowIndex * gridData.columnsCount + columnIndex;
+  const itemIndex = rowIndex * gridData.columnsCountDisplayed + columnIndex;
 
   return (
     <div
@@ -41,7 +47,6 @@ export const GridCellItem: React.FC<{
             </div>
           </div>
           <div className="card-image-wrapper">
-            {" "}
             <img
               loading="lazy"
               className="card-image"

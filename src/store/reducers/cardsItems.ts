@@ -7,7 +7,7 @@ const initialState: CardItemReducer = {
   pageNumber: 1,
 };
 
-const cardsItem = (state: any = initialState, action: any) => {
+const cardsItems = (state: any = initialState, action: any) => {
   if (action.type === "GET_FIRST_CARDS") {
     return {
       ...state,
@@ -34,4 +34,4 @@ const cardsItem = (state: any = initialState, action: any) => {
   return state;
 };
 
-export default cardsItem;
+export default cardsItems;

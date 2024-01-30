@@ -2,6 +2,7 @@ export interface CardDataModel {
   info?: CardInfoModel;
   results?: CardResultModel[];
 }
+
 export interface CardInfoModel {
   count: number;
   pages: number;

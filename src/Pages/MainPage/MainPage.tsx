@@ -14,7 +14,7 @@ import {
   getFirstCards,
   isLoading,
 } from "../../store/actions/cardItems";
-import { GridCellItem } from "../../shared/components/GridCellItem";
+import { GridCellItem } from "../../shared/components/GridCell";
 
 const MainPage: React.FC = () => {
   const dispatch: any = useDispatch();
@@ -22,26 +22,24 @@ const MainPage: React.FC = () => {
   const cardsDataResults: CardResultModel[] = useSelector(
     (state: any) => state.cardItems.results
   );
-
   const cardsDataInfo: CardInfoModel = useSelector(
     (state: any) => state.cardItems.info
   );
-
   const pageNumber: number = useSelector(
     (state: any) => state.cardItems.pageNumber
   );
-
   const loading: boolean = useSelector((state: any) => state.cardItems.loading);
 
   const GET_CARDS_URL = cardsDataInfo.next
     ? `${apiGetCardsFromPage}${pageNumber}`
     : apiGetFirstCards;
   const elementsCount = cardsDataInfo.count
-    ? cardsDataInfo.count / gridData.columnsCount
+    ? cardsDataInfo.count / gridData.columnsCountDisplayed
     : 0;
 
   useEffect(() => {
     getFirstCardsData();
+    window.scrollTo(0, 0);
   }, []);
 
   const getFirstCardsData: any = async () => {
@@ -71,10 +69,10 @@ const MainPage: React.FC = () => {
               {({ onItemsRendered, ref }: any) => (
                 <Grid
                   className="grid-component"
-                  columnCount={gridData.columnsCount}
-                  columnWidth={() => width / 2}
+                  columnCount={gridData.columnsCountDisplayed}
+                  columnWidth={() => width / gridData.columnsCountDisplayed}
                   height={height}
-                  rowHeight={() => height / 5}
+                  rowHeight={() => height / gridData.rowCountDisplayed}
                   width={width}
                   rowCount={elementsCount}
                   onItemsRendered={({
