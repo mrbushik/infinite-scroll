@@ -35,16 +35,16 @@ const MainPage: React.FC = () => {
     ? cardsDataInfo.count / gridData.columnsCountDisplayed
     : 0;
 
-  useEffect(() => {
-    getFirstCardsData();
-    window.scrollTo(0, 0);
-  }, []);
-
   const getFirstCardsData: () => void = async () => {
     dispatch(isLoading(true));
     const response = await CardDataService(apiGetCardsData);
     dispatch(getFirstCards(response));
   };
+
+  useEffect(() => {
+    getFirstCardsData();
+    window.scrollTo(0, 0);
+  }, []);
 
   const loadMoreCards = async () => {
     if (cardsDataInfo.next !== null) {
