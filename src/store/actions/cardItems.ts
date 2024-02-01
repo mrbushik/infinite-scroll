@@ -14,3 +14,8 @@ export const isLoading = (theme: any) => ({
   type: ReduxActionTypesNames.loading,
   payload: theme,
 });
+
+export const getMockCard = (theme: any) => ({
+  type: ReduxActionTypesNames.getMockCard,
+  payload: theme,
+});

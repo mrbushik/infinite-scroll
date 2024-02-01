@@ -12,10 +12,12 @@ import { CardInfoModel, CardResultModel } from "../../api/models/cardsModel";
 import {
   getCardsData,
   getFirstCards,
+  getMockCard,
   isLoading,
 } from "../../store/actions/cardItems";
 import { GridCellItem } from "../../shared/components/GridCell";
 import { AppDispatch } from "../../store/store";
+import { cardsInRequestCount } from "../../shared/constants/CardsData";
 
 const MainPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -26,10 +28,10 @@ const MainPage: React.FC = () => {
   const cardsDataInfo: CardInfoModel = useSelector(
     (state: any) => state.cardItems.info
   );
-  const pageNumber: number = useSelector(
-    (state: any) => state.cardItems.pageNumber
-  );
   const loading: boolean = useSelector((state: any) => state.cardItems.loading);
+
+  const [currentCardNumber, setCurrentCardNumber] = React.useState<number>(20);
+  const [currentPageNumber, setCurrentPageNumber] = React.useState<number>(2);
 
   const elementsCount = cardsDataInfo.count
     ? cardsDataInfo.count / gridData.columnsCountDisplayed
@@ -41,15 +43,29 @@ const MainPage: React.FC = () => {
     dispatch(getFirstCards(response));
   };
 
+  const mockCards = Array(cardsInRequestCount)
+    .fill(1, cardsInRequestCount)
+    .map(() => []);
+
+  const handleChangeCardData = () => {
+    setCurrentCardNumber((prevState) => (prevState += cardsInRequestCount));
+    setCurrentPageNumber((prevState) => (prevState += 1));
+  };
+
   useEffect(() => {
     getFirstCardsData();
     window.scrollTo(0, 0);
   }, []);
 
-  const loadMoreCards = async () => {
-    if (cardsDataInfo.next !== null) {
-      dispatch(isLoading(true));
-      const response: any = await CardDataService(apiGetCardsData, pageNumber);
+  const loadMoreCards = async (data: any) => {
+    if (currentPageNumber < cardsDataInfo.pages + 1) {
+      handleChangeCardData();
+      dispatch(getMockCard(mockCards));
+      const response: any = await CardDataService(
+        apiGetCardsData,
+        currentPageNumber,
+        currentCardNumber
+      );
       dispatch(getCardsData(response));
     }
   };

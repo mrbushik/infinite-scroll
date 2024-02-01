@@ -1,6 +1,7 @@
 export interface CardDataModel {
   info?: CardInfoModel;
   results?: CardResultModel[];
+  startElementsIndex?: number;
 }
 
 export interface CardInfoModel {
