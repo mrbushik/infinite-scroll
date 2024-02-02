@@ -1,49 +1,49 @@
-import { CardItemReducerModel } from "../../api/models/reducersModel";
-import { ReduxActionTypesNames } from "../../shared/constants/reduxActionTypesNames";
+import {
+  CardItemReducerModel,
+  GetTargetArrayModel,
+} from "../../api/models/reducersModel";
+import { reducersData, ReduxData } from "../../shared/constants/reduxData";
 
 const initialState: CardItemReducerModel = {
   info: {},
   results: [],
-  loading: false,
-  pageNumber: 1,
+};
+
+const getTargetArr: GetTargetArrayModel = (
+  targetIndex,
+  targetArr,
+  actionData
+) => {
+  const data = [...targetArr];
+  data.splice(targetIndex, reducersData.deleteCountElements, ...actionData);
+  return data;
 };
 
 const cardsItems = (state: any = initialState, action: any) => {
-  if (action.type === ReduxActionTypesNames.getFirstCards) {
+  if (action.type === ReduxData.getFirstCards) {
     return {
       ...state,
       info: action.payload.info,
-      results: [...state.results, ...action.payload.results],
-      pageNumber: (state.pageNumber += 1),
-      loading: false,
+      results: getTargetArr(
+        reducersData.arrayStartIndex,
+        state.results,
+        action.payload.results
+      ),
     };
-  } else if (action.type === ReduxActionTypesNames.getCardsData) {
-    const cardArr = [...state.results];
-    cardArr.splice(
-      action.payload.startElementsIndex,
-      20,
-      ...action.payload.results
-    );
+  } else if (action.type === ReduxData.getCardsData) {
     return {
       ...state,
       info: action.payload.info,
-      results: cardArr,
-      loading: false,
+      results: getTargetArr(
+        action.payload.startElementsIndex,
+        state.results,
+        action.payload.results
+      ),
     };
-  } else if (action.type === ReduxActionTypesNames.getMockCard) {
+  } else if (action.type === ReduxData.getMockCard) {
     return {
       ...state,
       results: [...state.results, ...action.payload],
-    };
-  } else if (action.type === ReduxActionTypesNames.loading) {
-    return {
-      ...state,
-      loading: action.payload,
-    };
-  } else if (action.type === ReduxActionTypesNames.increasePageNumber) {
-    return {
-      ...state,
-      pageNumber: (state.pageNumber += 1),
     };
   }
 

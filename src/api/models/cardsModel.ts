@@ -18,3 +18,10 @@ export interface CardResultModel {
   name?: string;
   species?: string;
 }
+
+export interface InitCartDataModel {
+  cardsInRequestCount: number;
+  startCardIndex: number;
+  startPageNumber: number;
+  loaded: boolean;
+}

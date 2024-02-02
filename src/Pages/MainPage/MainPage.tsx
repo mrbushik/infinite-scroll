@@ -13,11 +13,10 @@ import {
   getCardsData,
   getFirstCards,
   getMockCard,
-  isLoading,
 } from "../../store/actions/cardItems";
 import { GridCellItem } from "../../shared/components/GridCell";
 import { AppDispatch } from "../../store/store";
-import { cardsInRequestCount } from "../../shared/constants/CardsData";
+import { initCartData } from "../../shared/constants/CardsData";
 
 const MainPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -28,37 +27,41 @@ const MainPage: React.FC = () => {
   const cardsDataInfo: CardInfoModel = useSelector(
     (state: any) => state.cardItems.info
   );
-  const loading: boolean = useSelector((state: any) => state.cardItems.loading);
 
-  const [currentCardNumber, setCurrentCardNumber] = React.useState<number>(20);
-  const [currentPageNumber, setCurrentPageNumber] = React.useState<number>(2);
+  const [currentCardNumber, setCurrentCardNumber] = React.useState<number>(
+    initCartData.startCardIndex
+  );
+  const [currentPageNumber, setCurrentPageNumber] = React.useState<number>(
+    initCartData.startPageNumber
+  );
 
   const elementsCount = cardsDataInfo.count
     ? cardsDataInfo.count / gridData.columnsCountDisplayed
     : 0;
+  const mockCards = Array(initCartData.cardsInRequestCount)
+    .fill(1, initCartData.cardsInRequestCount)
+    .map(() => []);
 
   const getFirstCardsData: () => void = async () => {
-    dispatch(isLoading(true));
     const response = await CardDataService(apiGetCardsData);
     dispatch(getFirstCards(response));
   };
 
-  const mockCards = Array(cardsInRequestCount)
-    .fill(1, cardsInRequestCount)
-    .map(() => []);
-
   const handleChangeCardData = () => {
-    setCurrentCardNumber((prevState) => (prevState += cardsInRequestCount));
+    setCurrentCardNumber(
+      (prevState) => (prevState += initCartData.cardsInRequestCount)
+    );
     setCurrentPageNumber((prevState) => (prevState += 1));
   };
 
   useEffect(() => {
+    dispatch(getMockCard(mockCards));
     getFirstCardsData();
     window.scrollTo(0, 0);
   }, []);
 
   const loadMoreCards = async (data: any) => {
-    if (currentPageNumber < cardsDataInfo.pages + 1) {
+    if (currentPageNumber <= cardsDataInfo.pages) {
       handleChangeCardData();
       dispatch(getMockCard(mockCards));
       const response: any = await CardDataService(
@@ -76,7 +79,7 @@ const MainPage: React.FC = () => {
         <AutoSizer>
           {({ height, width }: any) => (
             <InfiniteLoader
-              isItemLoaded={() => loading}
+              isItemLoaded={() => initCartData.loaded}
               itemCount={elementsCount}
               loadMoreItems={loadMoreCards}
             >

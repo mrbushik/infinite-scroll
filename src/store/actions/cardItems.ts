@@ -1,21 +1,16 @@
-import { ReduxActionTypesNames } from "../../shared/constants/reduxActionTypesNames";
+import { ReduxData } from "../../shared/constants/reduxData";
 
 export const getFirstCards = (theme: any) => ({
-  type: ReduxActionTypesNames.getFirstCards,
+  type: ReduxData.getFirstCards,
   payload: theme,
 });
 
 export const getCardsData = (theme: any) => ({
-  type: ReduxActionTypesNames.getCardsData,
-  payload: theme,
-});
-
-export const isLoading = (theme: any) => ({
-  type: ReduxActionTypesNames.loading,
+  type: ReduxData.getCardsData,
   payload: theme,
 });
 
 export const getMockCard = (theme: any) => ({
-  type: ReduxActionTypesNames.getMockCard,
+  type: ReduxData.getMockCard,
   payload: theme,
 });
