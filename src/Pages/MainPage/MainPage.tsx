@@ -60,8 +60,8 @@ const MainPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const loadMoreCards = async (data: any) => {
-    if (currentPageNumber <= cardsDataInfo.pages) {
+  const loadMoreCards = async (startIndex: number, stopIndex: number) => {
+    if(currentPageNumber <=  cardsDataInfo.pages && currentPageNumber * 10 <= stopIndex) {
       handleChangeCardData();
       dispatch(getMockCard(mockCards));
       const response: any = await CardDataService(
@@ -70,6 +70,7 @@ const MainPage: React.FC = () => {
         currentCardNumber
       );
       dispatch(getCardsData(response));
+
     }
   };
 
@@ -82,6 +83,7 @@ const MainPage: React.FC = () => {
               isItemLoaded={() => initCartData.loaded}
               itemCount={elementsCount}
               loadMoreItems={loadMoreCards}
+              threshold={10}
             >
               {({ onItemsRendered, ref }) => (
                 <Grid
