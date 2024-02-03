@@ -61,7 +61,10 @@ const MainPage: React.FC = () => {
   }, []);
 
   const loadMoreCards = async (startIndex: number, stopIndex: number) => {
-    if(currentPageNumber <=  cardsDataInfo.pages && currentPageNumber * 10 <= stopIndex) {
+    if (
+      currentPageNumber <= cardsDataInfo.pages &&
+      currentPageNumber * 10 <= stopIndex
+    ) {
       handleChangeCardData();
       dispatch(getMockCard(mockCards));
       const response: any = await CardDataService(
@@ -70,7 +73,6 @@ const MainPage: React.FC = () => {
         currentCardNumber
       );
       dispatch(getCardsData(response));
-
     }
   };
 
